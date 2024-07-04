@@ -86,6 +86,7 @@ function detalhes() {
     .then((res) => res.json())
     .then((dados) => {
       dados.payload.map((rs) => {
+        document.querySelector('h2').innerHTML = `Saiba mais sobre ${rs.nometitulo}` 
         let card = `<div class="card mb-3 col-md-12" >
                 <div class="row g-0">
                   <div class="col-md-3">
@@ -98,6 +99,7 @@ function detalhes() {
                       <p class="card-text">${rs.sinopse}</p>
                       <p class="card-text" id="precoBook">De R$${rs.precoatual}</p>
                       <p class="card-text" id="precoBookDesc">Por R$${rs.precodesconto}</p>
+                      <img src="./img/shopcart.png" id="imgCart">Incluir no carrinho</img>
                       </div>
                   </div>
                 </div>
@@ -150,4 +152,41 @@ function detalhes() {
     .catch((error) => {
       console.error(`Erro na api ${error}`)
     })
+}
+
+function buscar() {
+  const conteudo = document.querySelector('.conteudo')
+  conteudo.innerHTML = ""
+  // Obter texto da caixa de busca
+  let palavra = document.querySelector('input').value
+  document.querySelector('h2').innerHTML = `Resultados encontrados por: ${palavra}`
+
+  fetch("http://127.0.0.1:4001/api/v1/livros/detalhes/titulo/" + palavra)
+    .then((res) => res.json())
+    .then((dados) => {
+      dados.payload.map((rs) => {
+        let card = `<div class="card mb-3 col-md-12" >
+        <div class="row g-0">
+          <div class="col-md-3">
+          <img src="${rs.foto1}"></img>
+        </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h3 class="card-title">${rs.nometitulo}</h3>
+              <h6 class="card-title">Autor: ${rs.autor}</h6>
+              <p class="card-text" id="precoBook">De R$${rs.precoatual}</p>
+              <p class="card-text" id="precoBookDesc">Por R$${rs.precodesconto}</p>
+              <a href="detalhes.html?idlivro=${rs.idtitulo}" class="btn btn-warning" id="btnDetail">Acessar</a>
+              </div>
+          </div>
+        </div>
+      </div>`
+
+        conteudo.innerHTML += card
+      })
+    })
+    .catch((error) => {
+      console.error(`Erro na api ${error}`)
+    })
+
 }
