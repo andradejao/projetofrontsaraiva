@@ -199,8 +199,22 @@ function carregarCarrinho() {
     .then((res) => res.json())
     .then((dados) => {
       dados.payload.map((rs) => {
-        
-
+        let card = `<div class="card mb-3 col-md-12">
+                <div class="row g-0">
+                  <div class="col-md-3">
+                  <img src="${rs.foto1}"></img>
+                </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">${rs.nometitulo}</h3>
+                      <h6 class="card-title">Autor: ${rs.autor}</h6>
+                      <p class="card-text" >${rs.precodesconto}</p>
+                      <p class="card-text" >${rs.quantidade}</p>
+                      <p class="card-text" >${rs.total}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>`
         conteudo.innerHTML += card
       })
     })
