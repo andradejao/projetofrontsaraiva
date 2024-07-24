@@ -86,7 +86,7 @@ function detalhes() {
     .then((res) => res.json())
     .then((dados) => {
       dados.payload.map((rs) => {
-        document.querySelector('h2').innerHTML = `Saiba mais sobre ${rs.nometitulo}` 
+        document.querySelector('h2').innerHTML = `Saiba mais sobre ${rs.nometitulo}`
         let card = `<div class="card mb-3 col-md-12" >
                 <div class="row g-0">
                   <div class="col-md-3">
@@ -99,7 +99,8 @@ function detalhes() {
                       <p class="card-text">${rs.sinopse}</p>
                       <p class="card-text" id="precoBook">De R$${rs.precoatual}</p>
                       <p class="card-text" id="precoBookDesc">Por R$${rs.precodesconto}</p>
-                      <img src="./img/shopcart.png" id="imgCart">Incluir no carrinho</img>
+                      <a href=carrinho.html?idlivro=${rs.idtitulo}>
+                      <img src="./img/shopcart.png" id="imgCart">Incluir no carrinho</img></a>
                       </div>
                   </div>
                 </div>
@@ -189,4 +190,21 @@ function buscar() {
       console.error(`Erro na api ${error}`)
     })
 
+}
+
+function carregarCarrinho() {
+  const conteudo = document.querySelector('.conteudo')
+
+  fetch("http://127.0.0.1:4002/api/v1/carrinho/listar/" + 1)
+    .then((res) => res.json())
+    .then((dados) => {
+      dados.payload.map((rs) => {
+        
+
+        conteudo.innerHTML += card
+      })
+    })
+    .catch((error) => {
+      console.error(`Erro na api ${error}`)
+    })
 }
