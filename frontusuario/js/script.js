@@ -199,23 +199,53 @@ function carregarCarrinho() {
     .then((res) => res.json())
     .then((dados) => {
       dados.payload.map((rs) => {
-        let card = `<div class="card mb-3 col-md-12">
-                <div class="row g-0">
-                  <div class="col-md-3">
-                  <img src="${rs.foto1}"></img>
-                </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h3 class="card-title">${rs.nometitulo}</h3>
-                      <h6 class="card-title">Autor: ${rs.autor}</h6>
-                      <p class="card-text" >${rs.precodesconto}</p>
-                      <p class="card-text" >${rs.quantidade}</p>
-                      <p class="card-text" >${rs.total}</p>
-                      </div>
-                  </div>
-                </div>
-              </div>`
+        let card = `<div class="card mb-3" style="min-width: 340px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src=${rs.foto1} class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h3 class="card-title">${rs.nometitulo}</h3>
+              <h6 class="card-text">Autor: ${rs.autor}</h6>
+              <p class="card-text"><small class="text-body-secondary">R$ ${rs.precodesconto}</small></p>
+              <select class="form-select" style="max-width: 130px" aria-label="Default select example">
+              <option selected value="${rs.quantidade}">Qtd: ${rs.quantidade}</option>
+              <option value="2">Qtd: 2</option>
+              <option value="3">Qtd: 3</option>
+              <option value="4">Qtd: 4</option>
+              <option value="5">Qtd: 5</option>
+              </select>
+              <hr>
+              <button type="button" class="btn btn-danger" style="">Deletar</button>
+            </div>
+          </div>
+        </div>
+      </div>`
         conteudo.innerHTML += card
+      })
+    })
+    .catch((error) => {
+      console.error(`Erro na api ${error}`)
+    })
+    somarValor()
+}
+
+function somarValor() {
+  const conteudo = document.querySelector('.subtotal')
+
+  fetch("http://127.0.0.1:4002/api/v1/carrinho/somar/" + 1)
+    .then((res) => res.json())
+    .then((dados) => {
+      dados.payload.map((rs) => {
+        let cardSubTotal = `<div class="card text-center mb-3" style="width: 18rem;">
+        <div class="card-body">
+          <p class="card-text">Subtotal: R$ ${rs.subtotal}</p>
+          <a href="#" class="btn btn-warning">Fechar pedido</a>
+        </div>
+      </div>`
+        // console.log(rs.ValoraPagar)
+        conteudo.innerHTML = cardSubTotal
       })
     })
     .catch((error) => {

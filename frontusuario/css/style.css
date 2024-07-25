@@ -55,3 +55,9 @@ img {
     width: 40px;
     margin-right: 10px;
 }
+
+/* Orientando cards do carrinho */
+
+.containerCarrinho {
+    display: flex;
+}
