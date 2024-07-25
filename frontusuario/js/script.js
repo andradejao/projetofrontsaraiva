@@ -209,15 +209,19 @@ function carregarCarrinho() {
               <h3 class="card-title">${rs.nometitulo}</h3>
               <h6 class="card-text">Autor: ${rs.autor}</h6>
               <p class="card-text"><small class="text-body-secondary">R$ ${rs.precodesconto}</small></p>
-              <select class="form-select" style="max-width: 130px" aria-label="Default select example">
-              <option selected value="${rs.quantidade}">Qtd: ${rs.quantidade}</option>
-              <option value="2">Qtd: 2</option>
-              <option value="3">Qtd: 3</option>
-              <option value="4">Qtd: 4</option>
-              <option value="5">Qtd: 5</option>
+              <div class="containerFlexSelect"
+              <label>Qtd:</label>
+              <select class="form-select" style="max-width: 80px" aria-label="Default select example" onchange="capturarSelect(this.value)">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
               </select>
+              </div>
               <hr>
-              <button type="button" class="btn btn-danger" style="">Deletar</button>
+              <p class="card-text precoatual">Subtotal (${rs.quantidade} produto): <strong> R$ ${rs.total}</strong></p>
+              <button type="button" class="btn btn-link" >Excluir</button>
             </div>
           </div>
         </div>
@@ -228,7 +232,7 @@ function carregarCarrinho() {
     .catch((error) => {
       console.error(`Erro na api ${error}`)
     })
-    somarValor()
+  somarValor()
 }
 
 function somarValor() {
@@ -244,11 +248,28 @@ function somarValor() {
           <a href="#" class="btn btn-warning">Fechar pedido</a>
         </div>
       </div>`
-        // console.log(rs.ValoraPagar)
         conteudo.innerHTML = cardSubTotal
       })
     })
     .catch((error) => {
       console.error(`Erro na api ${error}`)
     })
+}
+
+function capturarSelect(valor) {
+  const quantidadeProdutos = valor
+  fetch("http://127.0.0.1:4002/api/v1/carrinho/atualizarpreco/" + 3, {
+    method: "PUT",
+    headers: {
+      "accept": "application/json",
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      quantidade: quantidadeProdutos.value
+    })
+  }).then((res) => res.json())
+    .then((result) => {
+      alert(result)
+    })
+    .catch((error) => console.error(`Erro ao acessar a api ${error}`))
 }
