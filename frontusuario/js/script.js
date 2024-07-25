@@ -258,7 +258,7 @@ function somarValor() {
 
 function capturarSelect(valor) {
   const quantidadeProdutos = valor
-  fetch("http://127.0.0.1:4002/api/v1/carrinho/atualizarpreco/" + 3, {
+  fetch("http://127.0.0.1:4002/api/v1/carrinho/atualizarpreco/" + 1, {
     method: "PUT",
     headers: {
       "accept": "application/json",
@@ -269,7 +269,7 @@ function capturarSelect(valor) {
     })
   }).then((res) => res.json())
     .then((result) => {
-      alert(result)
+      console.log(result)
     })
     .catch((error) => console.error(`Erro ao acessar a api ${error}`))
 }
